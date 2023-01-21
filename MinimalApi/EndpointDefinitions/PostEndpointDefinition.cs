@@ -3,6 +3,7 @@ using Applicaton.Posts.Queries;
 using Domain.Models;
 using MediatR;
 using MinimalApi.Abstractions;
+using MinimalApi.Filters;
 
 namespace MinimalApi.EndppintDefinitions;
 
@@ -14,9 +15,9 @@ public class PostEndpointDefinition : IEndpointDefinition
     var posts = app.MapGroup ( "/api/posts" );
 
     posts.MapGet ( "/{id}", GetPostById ).WithName ( "GetPostById" );
-    posts.MapPost ( "/", CreatePost );
+    posts.MapPost ( "/", CreatePost ).AddEndpointFilter<PostValidationFilter>();
     posts.MapGet ( "/", GetAllPosts );
-    posts.MapPut ( "/{id}", UpdatePost );
+    posts.MapPut ( "/{id}", UpdatePost ).AddEndpointFilter<PostValidationFilter>();
     posts.MapDelete ( "/{id}", DeletePost );
   }
 
